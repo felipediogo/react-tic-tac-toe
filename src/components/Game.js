@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Board from './Board';
+import MoveList from './MoveList';
 
 import './board.css';
 
@@ -13,6 +14,7 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
+      selectedIndex: -1,
     };
   }
 
@@ -37,6 +39,7 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) ? false : true,
+      selectedIndex: step,
     });
   }
 
@@ -45,17 +48,7 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move) => {
-      console.log(step);
-      const desc = move ?
-        'Move #' + move :
-        'Game start';
-      return (
-        <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
-        </li>
-      );
-    });
+    const moveListValue = {history: history, stepNumber: this.state.selectedIndex};
 
     let status;
     if (winner) {
@@ -74,7 +67,10 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <MoveList
+            value={moveListValue}
+            onClick={(i) => this.jumpTo(i)}
+          />
         </div>
       </div>
     );
