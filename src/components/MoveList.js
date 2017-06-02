@@ -4,21 +4,22 @@ import './board.css';
 
 class MoveList extends React.Component {
   constructor() {
-    super();
+    super(); 
     this.state = {
       itemSelected: -1,
     };
   }
 
   render() {
-    const moves = this.props.value.map((step, move) => {
-
+    console.log(this.props.value);
+    const moves = this.props.value.history.map((step, move) => {
+      const stepNumber = this.props.value.stepNumber;
       let desc = move ?
         'Move #' + move :
         'Game start';
 
-      if (move === this.state.itemSelected) {
-        desc = <b> + desc + </b>;
+      if (move === stepNumber) {
+        desc = <b>{desc}</b>;
       }
 
       return (

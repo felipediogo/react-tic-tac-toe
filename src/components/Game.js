@@ -14,6 +14,7 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
+      selectedIndex: -1,
     };
   }
 
@@ -38,6 +39,7 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) ? false : true,
+      selectedIndex: step,
     });
   }
 
@@ -45,6 +47,8 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+
+    const moveListValue = {history: history, stepNumber: this.state.selectedIndex};
 
     let status;
     if (winner) {
@@ -64,7 +68,7 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <MoveList
-            value={history}
+            value={moveListValue}
             onClick={(i) => this.jumpTo(i)}
           />
         </div>
